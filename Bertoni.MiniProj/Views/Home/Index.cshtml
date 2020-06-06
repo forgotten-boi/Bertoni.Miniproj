@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <div>
+        <div>Album List</div>
+        <div>
+            <select id="album" asp-items="ViewBag.AlbumList" class="form-control">
+                <option value="">Select Album</option>
+            </select>
+            <div id="photos">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+    $("#album").change(function () {
+        var albumId = this.value;
+        $.ajax({
+            url: '@Url.Action("_Photos", "Home")/' + albumId,
+            success: function (response) {
+              
+            $("#photos").html(response);
+            $("#tblPhotos").DataTable();
+        },
+        error: function () {
+             alert("error occured");
+        }
+    });
+
+    });
+    </script>
+    <script>
+        
+        $(document).on("click", ".btnViewComment", function () {
+                var photosId = $(this).attr("data-id");
+                $.ajax({
+                    url: '@Url.Action("_Comments", "Home")/' + photosId,
+                    success: function (response) {
+                        $('div .currentRow').html(response);
+                        
+                        $('html, body').animate({
+                            scrollTop: parseInt($("#comments").offset().top)
+                        }, 2000);
+                    },
+                    error: function () {
+                        alert("error occured");
+                    }
+                });
+            });
+        //})
+    </script>
+}

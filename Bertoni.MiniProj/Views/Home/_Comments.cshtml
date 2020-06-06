@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Comment>
+@{ int index = 0;}
+<div>Comments</div>
+<table id="comments" class="table table-dark">
+    @if (Model == null || Model.Count() == 0)
+    {   <tr><td style="text-align:center">No Content</td></tr>
+    }
+    else
+    {    <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Comments</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.Body</td>
+
+            </tr>
+            index++;
+        }
+    }
+    </table>
